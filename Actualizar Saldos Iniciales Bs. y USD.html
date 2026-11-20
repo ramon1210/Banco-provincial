@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Banco Provin | Banca Móvil y En Línea</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            provin: {
+              navy: '#072146',
+              corp: '#004481',
+              medium: '#1464A5',
+              bright: '#1973B8',
+              cyan: '#2DCCCD',
+              sky: '#5BBEFF',
+              ice: '#EBF4FA',
+              bg: '#F4F7FB',
+              text: '#10243E',
+              muted: '#5D728A',
+              success: '#1E7E48',
+              danger: '#D6364E',
+            }
+          },
+          boxShadow: {
+            'app': '0 24px 60px rgba(7, 33, 70, 0.22)',
+            'card': '0 4px 18px rgba(7, 33, 70, 0.06)',
+            'float': '0 -6px 24px rgba(7, 33, 70, 0.08)',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #DCE5F0;
+      color: #10243E;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      margin: 0;
+    }
+
+    .bg-provin-header {
+      background: linear-gradient(180deg, #072146 0%, #004481 100%);
+    }
+
+    .bg-provin-login {
+      background: radial-gradient(circle at 85% 10%, #1973B8 0%, #004481 36%, #072146 72%, #04142B 100%);
+    }
+
+    .bg-provin-card {
+      background: linear-gradient(135deg, #072146 0%, #004481 55%, #1973B8 100%);
+    }
+
+    .bg-dinero-rapido {
+      background: linear-gradient(135deg, rgba(25, 115, 184, 0.34) 0%, rgba(45, 204, 205, 0.16) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(91, 190, 255, 0.28);
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); opacity: 0.75; }
+      70% { transform: scale(1.18); opacity: 0; }
+      100% { transform: scale(1.18); opacity: 0; }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.22s ease-out forwards;
+    }
+
+    .slide-up {
+      animation: slideUp 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .biometric-ring {
+      animation: pulseRing 1.6s infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex justify-center items-start md:py-4">
+
+  <!-- Marco principal tipo aplicación móvil con soporte responsive en escritorio -->
+  <div id="appShell" class="w-full max-w-[460px] min-h-screen md:min-h-[840px] md:max-h-[900px] md:rounded-[36px] bg-provin-bg md:shadow-app md:border-[6px] md:border-provin-navy relative overflow-x-hidden flex flex-col">
+
+    <!-- Contenedor de notificaciones Toast -->
+    <div id="toastContainer" class="fixed md:absolute top-4 left-4 right-4 z-[60] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- ===================================================================== -->
+    <!-- 1. PANTALLA DE BIENVENIDA / ACCESO + DINERO RÁPIDO                   -->
+    <!-- ===================================================================== -->
+    <section id="loginScreen" class="flex-1 bg-provin-login text-white flex flex-col justify-between p-5 sm:p-6">
+      <!-- Cabecera de marca -->
+      <div class="flex items-center justify-between pt-1">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-white/95 border border-provin-sky/45 flex items-center justify-center shadow">
+            <svg class="w-6 h-6" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <path d="M11 33V10C11 8.89543 11.8954 8 13 8H22.5C27.7467 8 32 12.2533 32 17.5C32 22.7467 27.7467 27 22.5 27H17V33H11Z" fill="#031126"/>
+              <path d="M17 13.5H22.2C24.4091 13.5 26.2 15.2909 26.2 17.5C26.2 19.7091 24.4091 21.5 22.2 21.5H17V13.5Z" fill="#FFFFFF"/>
+              <path d="M8 14C8 10.6863 10.6863 8 14 8H23C28.5228 8 33 12.4772 33 18C33 23.5228 28.5228 28 23 28H15.5V22.5H22.5C24.9853 22.5 27 20.4853 27 18C27 15.5147 24.9853 13.5 22.5 13.5H13.5V34H8V14Z" fill="#072146"/>
+            </svg>
+          </div>
+          <div>
+            <span class="text-lg font-extrabold tracking-tight block leading-none">Banco Provin</span>
+            <span class="text-[10px] text-provin-sky uppercase tracking-widest font-semibold">Banca Digital</span>
+          </div>
+        </div>
+
+        <button type="button" onclick="openUserModal()" class="text-xs font-semibold text-provin-sky hover:text-white bg-white/10 hover:bg-white/15 px-3 py-1.5 rounded-full transition">
+          Cambiar usuario
+        </button>
+      </div>
+
+      <!-- Centro: Perfil del usuario + PIN + Biometría -->
+      <div class="my-auto py-5">
+        <div class="flex flex-col items-center text-center mb-5">
+          <div id="loginAvatar" class="w-16 h-16 rounded-full bg-gradient-to-tr from-provin-bright to-provin-cyan text-provin-navy font-extrabold text-xl flex items-center justify-center shadow-lg border-2 border-white/40 mb-3">
+            DA
+          </div>
+          <h1 class="text-2xl font-bold tracking-tight">Hola, <span id="loginNameText">Danny</span></h1>
+          <p class="text-xs text-sky-200/85 mt-1" id="loginSubText">V-20.481.930 • 0414-7829011</p>
+        </div>
+
+        <form id="loginForm" class="space-y-3.5">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="pinInput" class="text-[11px] font-semibold uppercase tracking-wider text-sky-200">PIN / Clave de Acceso</label>
+              <span class="text-[10px] text-provin-cyan font-semibold">PIN sugerido: 1234</span>
+            </div>
+            <div class="relative">
+              <input type="password" id="pinInput" inputmode="numeric" maxlength="8" value="1234" placeholder="Ingresa tu PIN" class="w-full px-4 py-3.5 rounded-xl bg-white/10 border border-white/25 focus:border-provin-cyan focus:bg-white/15 text-white placeholder-sky-200/50 outline-none text-sm font-bold tracking-widest pr-12 transition" required />
+              <button type="button" onclick="togglePinVisibility()" class="absolute right-3.5 top-3.5 text-sky-200 hover:text-white" aria-label="Mostrar u ocultar PIN">
+                <svg id="pinEyeOpen" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                <svg id="pinEyeClosed" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M3 3l18 18"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-provin-bright hover:bg-sky-500 active:scale-[0.99] text-white font-bold text-sm shadow-lg shadow-provin-bright/30 transition">
+            Entrar a Banco Provin
+          </button>
+
+          <!-- Simulación de desbloqueo biométrico -->
+          <button type="button" onclick="triggerBiometricUnlock()" class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-provin-sky font-semibold text-xs flex items-center justify-center gap-2 transition">
+            <span class="relative flex items-center justify-center">
+              <span class="absolute w-5 h-5 rounded-full bg-provin-cyan/40 biometric-ring"></span>
+              <svg class="w-4 h-4 text-provin-cyan relative" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"/></svg>
+            </span>
+            <span>Desbloquear con Huella / Face ID</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Inferior: DINERO RÁPIDO -->
+      <div class="bg-dinero-rapido rounded-2xl p-4">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-provin-cyan text-provin-navy flex items-center justify-center font-extrabold text-xs">⇄</span>
+            <div>
+              <h2 class="text-xs font-extrabold uppercase tracking-wider text-white">Dinero Rápido</h2>
+              <p class="text-[10px] text-sky-200">Operaciones express sin demoras</p>
+            </div>
+          </div>
+          <span class="text-[10px] font-bold bg-provin-cyan/20 text-provin-cyan px-2 py-0.5 rounded-full">24/7</span>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2">
+          <button type="button" onclick="quickActionFromLogin('pagomovil')" class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-provin-navy/65 hover:bg-provin-navy border border-white/10 transition text-center">
+            <svg class="w-5 h-5 text-provin-cyan mb-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            <span class="text-[11px] font-bold leading-tight">Pago Móvil Rápido</span>
+          </button>
+
+          <button type="button" onclick="openModal('qrModal')" class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-provin-navy/65 hover:bg-provin-navy border border-white/10 transition text-center">
+            <svg class="w-5 h-5 text-provin-sky mb-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+            <span class="text-[11px] font-bold leading-tight">Cobro QR</span>
+          </button>
+
+          <button type="button" onclick="openTokenModal()" class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-provin-navy/65 hover:bg-provin-navy border border-white/10 transition text-center">
+            <svg class="w-5 h-5 text-emerald-300 mb-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+            <span class="text-[11px] font-bold leading-tight">Clave Token</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- 2. APLICACIÓN PRINCIPAL (POSICIÓN GLOBAL + NAVEGACIÓN)               -->
+    <!-- ===================================================================== -->
+    <div id="mainDashboard" class="hidden flex-1 flex-col pb-20">
+
+      <!-- Cabecera azul corporativa -->
+      <header class="bg-provin-header text-white px-5 pt-4 pb-6 rounded-b-[28px] shadow-md">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-white/95 border border-white/30 flex items-center justify-center font-extrabold text-[#031126] text-base shadow-sm">
+              P
+            </div>
+            <div>
+              <p class="text-[11px] text-provin-sky font-medium leading-none">Banco Provin • Posición Global</p>
+              <h2 class="text-base font-bold tracking-tight mt-0.5">Hola, <span id="dashUserName">Danny</span></h2>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <button type="button" onclick="openTokenModal()" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition" title="Clave Token" aria-label="Clave Token">
+              <svg class="w-4 h-4 text-provin-cyan" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+            </button>
+
+            <button type="button" onclick="togglePrivacyMode()" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition" title="Ocultar o mostrar saldos" aria-label="Ocultar o mostrar saldos">
+              <svg id="dashEyeOpen" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              <svg id="dashEyeClosed" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M3 3l18 18"/></svg>
+            </button>
+
+            <button type="button" onclick="logoutSession()" class="px-3 py-1.5 rounded-full bg-white/10 hover:bg-provin-danger text-xs font-bold transition">
+              Salir
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 Botones Circulares de Acción Rápida -->
+        <div class="grid grid-cols-5 gap-1.5 pt-1">
+          <button type="button" onclick="openPagoMovilModal()" class="flex flex-col items-center gap-1.5 group">
+            <div class="w-11 h-11 rounded-full bg-provin-bright group-hover:bg-provin-cyan group-hover:text-provin-navy flex items-center justify-center shadow-md transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            </div>
+            <span class="text-[10px] font-semibold text-sky-100 text-center leading-tight">Pago Móvil</span>
+          </button>
+
+          <button type="button" onclick="openTransferModal('own')" class="flex flex-col items-center gap-1.5 group">
+            <div class="w-11 h-11 rounded-full bg-white/15 group-hover:bg-provin-cyan group-hover:text-provin-navy flex items-center justify-center transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+            </div>
+            <span class="text-[10px] font-semibold text-sky-100 text-center leading-tight">Transferir</span>
+          </button>
+
+          <button type="button" onclick="openModal('rechargeModal')" class="flex flex-col items-center gap-1.5 group">
+            <div class="w-11 h-11 rounded-full bg-white/15 group-hover:bg-provin-cyan group-hover:text-provin-navy flex items-center justify-center transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <span class="text-[10px] font-semibold text-sky-100 text-center leading-tight">Recargar</span>
+          </button>
+
+          <button type="button" onclick="openModal('qrModal')" class="flex flex-col items-center gap-1.5 group">
+            <div class="w-11 h-11 rounded-full bg-white/15 group-hover:bg-provin-cyan group-hover:text-provin-navy flex items-center justify-center transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+            </div>
+            <span class="text-[10px] font-semibold text-sky-100 text-center leading-tight">Mi QR</span>
+          </button>
+
+          <button type="button" onclick="openModal('atmModal')" class="flex flex-col items-center gap-1.5 group">
+            <div class="w-11 h-11 rounded-full bg-white/15 group-hover:bg-provin-cyan group-hover:text-provin-navy flex items-center justify-center transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </div>
+            <span class="text-[10px] font-semibold text-sky-100 text-center leading-tight">Cajero ATM</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- ================================================================= -->
+      <!-- PESTAÑA 1: POSICIÓN GLOBAL                                        -->
+      <!-- ================================================================= -->
+      <main id="view-posicion" class="nav-view px-4 pt-4 space-y-4 fade-in">
+
+        <!-- Tarjeta CUENTAS (Cuenta Principal Bs. + Cuenta Divisas USD + Calculadora) -->
+        <section class="bg-white rounded-2xl shadow-card border border-slate-200/75 overflow-hidden">
+          <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/75">
+            <span class="text-[11px] font-extrabold uppercase tracking-wider text-provin-navy">Cuentas</span>
+            <span class="text-[11px] font-bold text-provin-bright">Tasa: <span id="rateBadgeText">46,50 Bs/$</span></span>
+          </div>
+
+          <!-- Cuenta Principal Bs. -->
+          <div class="p-4 border-b border-slate-100">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <p class="text-sm font-bold text-provin-corp">Cuenta Principal Provin</p>
+                <button type="button" onclick="toggleAccountDetails()" class="text-xs text-provin-muted hover:text-provin-bright font-mono mt-0.5 flex items-center gap-1">
+                  <span>*2915</span>
+                  <span class="text-[10px] font-sans font-semibold text-provin-bright">(ver 20 dígitos)</span>
+                </button>
+              </div>
+              <div class="text-right">
+                <p class="text-xl font-extrabold text-provin-navy tracking-tight" id="balanceBsDisplay">Bs. 18.450,75</p>
+                <span class="text-[10px] text-provin-muted font-medium">Disponible en Bolívares</span>
+              </div>
+            </div>
+
+            <div id="account20Drawer" class="hidden mt-3 pt-2.5 border-t border-dashed border-slate-200 flex items-center justify-between bg-provin-ice/70 px-3 py-2 rounded-xl">
+              <span class="text-xs font-mono font-bold text-provin-navy">0108-0094-21-0100482915</span>
+              <button type="button" onclick="copyToClipboard('01080094210100482915', 'Cuenta de 20 dígitos copiada')" class="text-[11px] font-bold text-provin-bright hover:underline">
+                Copiar
+              </button>
+            </div>
+          </div>
+
+          <!-- Cuenta Divisas USD + Calculadora en vivo -->
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <p class="text-sm font-bold text-provin-corp">Cuenta Divisas Provin</p>
+                  <span class="text-[10px] font-extrabold bg-provin-ice text-provin-corp px-1.5 py-0.5 rounded">USD</span>
+                </div>
+                <p class="text-xs text-provin-muted font-mono mt-0.5">*8340</p>
+              </div>
+              <div class="text-right">
+                <p class="text-lg font-extrabold text-provin-navy" id="balanceUsdDisplay">$ 420,50</p>
+                <span class="text-[10px] text-provin-muted font-medium" id="usdEquivalentBs">≈ Bs. 386.362,79</span>
+              </div>
+            </div>
+
+            <!-- Calculadora de cambio en vivo -->
+            <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 flex-1 min-w-0">
+                <span class="text-[11px] font-bold text-provin-muted shrink-0">Calc $:</span>
+                <input type="number" id="liveCalcUsdInput" value="25" min="0" step="any" oninput="updateLiveRateCalc()" aria-label="Monto en dólares para calcular en bolívares" class="w-16 px-2 py-1 text-xs font-bold rounded-lg border border-slate-200 bg-slate-50 text-provin-navy outline-none focus:border-provin-bright" />
+                <span class="text-[11px] font-extrabold text-provin-corp truncate" id="liveCalcOutput">= Bs. 22.969,25</span>
+              </div>
+              <button type="button" onclick="openTransferModal('own')" class="text-[11px] font-bold text-provin-bright hover:underline shrink-0">
+                Cambiar →
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tarjeta TARJETAS (Congelar / Descongelar + Revelar CVV temporal) -->
+        <section class="bg-white rounded-2xl shadow-card border border-slate-200/75 overflow-hidden">
+          <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/75">
+            <span class="text-[11px] font-extrabold uppercase tracking-wider text-provin-navy">Tarjetas</span>
+            <span id="cardStatusBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-provin-success">Activa</span>
+          </div>
+
+          <div class="p-4">
+            <div id="provinCardVisual" class="bg-provin-card rounded-2xl p-4 text-white shadow-md relative overflow-hidden transition-all duration-300">
+              <div class="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-provin-cyan/20 blur-xl pointer-events-none"></div>
+
+              <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-extrabold text-sm tracking-tight">Banco Provin</span>
+                  <span class="text-[10px] text-provin-cyan font-bold uppercase">Débito</span>
+                </div>
+                <span class="text-xs font-extrabold italic tracking-wider text-sky-100">VISA</span>
+              </div>
+
+              <p class="font-mono text-sm tracking-widest mb-4">4571 •••• •••• 6092</p>
+
+              <div class="flex items-end justify-between text-[11px]">
+                <div>
+                  <span class="text-sky-200/80 text-[9px] uppercase block">Titular</span>
+                  <span class="font-bold uppercase tracking-wide" id="cardHolderName">DANNY</span>
+                </div>
+                <div class="flex gap-3">
+                  <div>
+                    <span class="text-sky-200/80 text-[9px] uppercase block">Vence</span>
+                    <span class="font-mono font-bold" id="cardExpText">••/••</span>
+                  </div>
+                  <div>
+                    <span class="text-sky-200/80 text-[9px] uppercase block">CVV</span>
+                    <span class="font-mono font-bold" id="cardCvvText">•••</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Controles de seguridad -->
+            <div class="flex items-center justify-between mt-3.5 pt-2 gap-2">
+              <button type="button" onclick="toggleTemporaryCvv()" class="text-xs font-bold text-provin-bright hover:text-provin-navy flex items-center gap-1.5 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                <span id="cvvToggleLabel">Ver CVV (15s)</span>
+              </button>
+
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <span class="text-xs font-semibold text-provin-muted" id="freezeSwitchLabel">Activa</span>
+                <input type="checkbox" id="cardFreezeToggle" checked onchange="handleCardFreezeToggle(this.checked)" class="sr-only peer">
+                <div class="w-10 h-5 bg-slate-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all relative peer-checked:bg-provin-bright"></div>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tarjeta ÚLTIMOS MOVIMIENTOS (Filtrable y con buscador) -->
+        <section class="bg-white rounded-2xl shadow-card border border-slate-200/75 overflow-hidden">
+          <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/75">
+            <span class="text-[11px] font-extrabold uppercase tracking-wider text-provin-navy">Últimos Movimientos</span>
+            <button type="button" onclick="switchNavTab('movimientos')" class="text-xs font-bold text-provin-bright hover:underline">
+              Ver todo
+            </button>
+          </div>
+
+          <div class="p-3 border-b border-slate-100 space-y-2">
+            <div class="relative">
+              <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="homeSearchInput" oninput="renderHomeMovements()" placeholder="Buscar movimiento o referencia..." class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs outline-none focus:border-provin-bright" />
+            </div>
+
+            <div class="flex gap-1.5">
+              <button type="button" onclick="setHomeFilter('ALL')" data-hfilter="ALL" class="hfilter-btn flex-1 py-1.5 rounded-lg text-[11px] font-bold bg-provin-navy text-white transition">Todos</button>
+              <button type="button" onclick="setHomeFilter('IN')" data-hfilter="IN" class="hfilter-btn flex-1 py-1.5 rounded-lg text-[11px] font-bold bg-provin-bg text-provin-muted transition">Ingresos</button>
+              <button type="button" onclick="setHomeFilter('OUT')" data-hfilter="OUT" class="hfilter-btn flex-1 py-1.5 rounded-lg text-[11px] font-bold bg-provin-bg text-provin-muted transition">Egresos</button>
+            </div>
+          </div>
+
+          <div id="homeMovementsList" class="divide-y divide-slate-100"></div>
+        </section>
+      </main>
+
+      <!-- ================================================================= -->
+      <!-- PESTAÑA 2: EXTRACTOS Y MOVIMIENTOS COMPLETOS                      -->
+      <!-- ================================================================= -->
+      <main id="view-movimientos" class="nav-view hidden px-4 pt-4 space-y-4 fade-in">
+        <div class="bg-white rounded-2xl p-4 shadow-card border border-slate-200/75">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-base font-extrabold text-provin-navy">Historial de Operaciones</h3>
+              <p class="text-[11px] text-provin-muted">Selecciona cualquier movimiento para ver o copiar su comprobante</p>
+            </div>
+          </div>
+
+          <div class="relative mb-3">
+            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="allSearchInput" oninput="renderAllMovements()" placeholder="Filtrar por concepto, beneficiario o referencia..." class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs outline-none focus:border-provin-bright" />
+          </div>
+
+          <div class="flex gap-1.5 mb-3">
+            <button type="button" onclick="setAllFilter('ALL')" data-afilter="ALL" class="afilter-btn flex-1 py-1.5 rounded-lg text-[11px] font-bold bg-provin-navy text-white transition">Todos</button>
+            <button type="button" onclick="setAllFilter('IN')" data-afilter="IN" class="afilter-btn flex-1 py-1.5 rounded-lg text-[11px] font-bold bg-provin-bg text-provin-muted transition">Ingresos</button>
+            <button type="button" onclick="setAllFilter('OUT')" data-afilter="OUT" class="afilter-btn flex-1 py-1.5 rounded-lg text-[11px] font-bold bg-provin-bg text-provin-muted transition">Egresos</button>
+          </div>
+
+          <div id="allMovementsList" class="divide-y divide-slate-100"></div>
+        </div>
+      </main>
+
+      <!-- ================================================================= -->
+      <!-- PESTAÑA 3: PERFIL Y AJUSTES                                       -->
+      <!-- ================================================================= -->
+      <main id="view-perfil" class="nav-view hidden px-4 pt-4 space-y-4 fade-in">
+        <div class="bg-white rounded-2xl p-4 shadow-card border border-slate-200/75">
+          <div class="flex items-center gap-3 mb-4">
+            <div id="profileAvatar" class="w-12 h-12 rounded-full bg-provin-navy text-provin-cyan font-extrabold text-base flex items-center justify-center">
+              DA
+            </div>
+            <div>
+              <h3 class="text-base font-extrabold text-provin-navy" id="profileNameText">Danny</h3>
+              <p class="text-xs text-provin-muted" id="profileDocText">V-20.481.930 • 0414-7829011</p>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-provin-ice/75 border border-provin-sky/30 space-y-1.5 text-xs mb-3">
+            <p class="text-[10px] font-extrabold uppercase tracking-wider text-provin-corp">Datos Pago Móvil del Titular</p>
+            <div class="flex justify-between">
+              <span class="text-provin-muted">Banco:</span>
+              <strong class="text-provin-navy">0108 - Banco Provin</strong>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-provin-muted">Teléfono:</span>
+              <strong class="text-provin-navy" id="profPhoneValue">0414-7829011</strong>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-provin-muted">Identificación:</span>
+              <strong class="text-provin-navy" id="profDocValue">V-20.481.930</strong>
+            </div>
+          </div>
+
+          <button type="button" onclick="copyPagoMovilCredentials()" class="w-full py-3 rounded-xl bg-provin-bright hover:bg-provin-corp text-white font-bold text-xs shadow transition">
+            Copiar Mis Datos de Pago Móvil
+          </button>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-card border border-slate-200/75 space-y-4">
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-provin-navy">Parámetros y Simulación</h4>
+
+          <div>
+            <label for="rateSettingInput" class="block text-xs font-bold text-provin-navy mb-1">Tasa de Cambio Referencial (Bs / $)</label>
+            <div class="flex gap-2">
+              <input type="number" id="rateSettingInput" step="0.01" min="1" value="918.77" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-extrabold text-provin-navy outline-none" />
+              <button type="button" onclick="updateExchangeRate()" class="px-4 py-2 rounded-xl bg-provin-navy text-white font-bold text-xs">Guardar</button>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-100">
+            <span class="block text-xs font-bold text-provin-navy mb-2">Abonar Saldo de Prueba</span>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" onclick="topUpDemoBalance('BS', 5000)" class="py-2.5 rounded-xl bg-provin-ice hover:bg-sky-200/70 text-provin-corp font-bold text-xs transition">+ Bs. 5.000,00</button>
+              <button type="button" onclick="topUpDemoBalance('USD', 100)" class="py-2.5 rounded-xl bg-provin-ice hover:bg-sky-200/70 text-provin-corp font-bold text-xs transition">+ $ 100,00 USD</button>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-100 flex gap-2">
+            <button type="button" onclick="openUserModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-provin-navy font-bold text-xs hover:bg-slate-50">
+              Editar Titular
+            </button>
+            <button type="button" onclick="resetDemoState()" class="flex-1 py-2.5 rounded-xl border border-red-200 text-provin-danger font-bold text-xs hover:bg-red-50">
+              Restablecer Demo
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <!-- Barra de navegación inferior fija -->
+      <nav class="fixed md:sticky bottom-0 left-0 right-0 max-w-[460px] mx-auto bg-white border-t border-slate-200 px-3 py-1.5 z-30 shadow-float">
+        <div class="grid grid-cols-3 gap-1">
+          <button type="button" onclick="switchNavTab('posicion')" data-nav="posicion" class="bottom-tab flex flex-col items-center justify-center py-1 rounded-xl text-provin-bright">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span class="text-[10px] font-bold mt-0.5">Posición Global</span>
+          </button>
+
+          <button type="button" onclick="switchNavTab('movimientos')" data-nav="movimientos" class="bottom-tab flex flex-col items-center justify-center py-1 rounded-xl text-provin-muted">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            <span class="text-[10px] font-bold mt-0.5">Movimientos</span>
+          </button>
+
+          <button type="button" onclick="switchNavTab('perfil')" data-nav="perfil" class="bottom-tab flex flex-col items-center justify-center py-1 rounded-xl text-provin-muted">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span class="text-[10px] font-bold mt-0.5">Perfil</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 1: PAGO MÓVIL                                                   -->
+    <!-- ===================================================================== -->
+    <div id="pagoMovilModal" class="fixed inset-0 bg-provin-navy/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-[430px] w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl slide-up">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h3 class="text-base font-extrabold text-provin-navy">Pago Móvil Provin</h3>
+            <p class="text-[11px] text-provin-muted">Disponible: <strong class="text-provin-corp" id="pmAvailableText">Bs. 18.450,75</strong></p>
+          </div>
+          <button type="button" onclick="closeModal('pagoMovilModal')" class="w-8 h-8 rounded-full bg-slate-100 text-xs font-bold">✕</button>
+        </div>
+
+        <!-- Directorio de contactos frecuentes -->
+        <div class="mb-4">
+          <span class="block text-[10px] font-extrabold uppercase tracking-wider text-provin-muted mb-2">Contactos Frecuentes</span>
+          <div id="pmContactsBar" class="flex gap-2.5 overflow-x-auto no-scrollbar pb-1"></div>
+        </div>
+
+        <form id="pmSubmitForm" class="space-y-3">
+          <div>
+            <label for="pmBank" class="block text-[11px] font-bold text-provin-navy mb-1">Banco Destino</label>
+            <select id="pmBank" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold text-provin-navy outline-none focus:border-provin-bright">
+              <option value="0108 - Banco Provin">0108 - Banco Provin</option>
+              <option value="0102 - Banco de Venezuela">0102 - Banco de Venezuela</option>
+              <option value="0105 - Banco Mercantil">0105 - Banco Mercantil</option>
+              <option value="0134 - Banesco">0134 - Banesco</option>
+              <option value="0172 - Bancamiga">0172 - Bancamiga</option>
+              <option value="0191 - BNC">0191 - Banco Nacional de Crédito</option>
+              <option value="0114 - Bancaribe">0114 - Bancaribe</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label for="pmDocType" class="block text-[11px] font-bold text-provin-navy mb-1">Tipo</label>
+              <select id="pmDocType" class="w-full px-2.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold outline-none">
+                <option value="V">V-</option>
+                <option value="E">E-</option>
+                <option value="J">J-</option>
+                <option value="G">G-</option>
+              </select>
+            </div>
+            <div class="col-span-2">
+              <label for="pmDocId" class="block text-[11px] font-bold text-provin-navy mb-1">Cédula o RIF</label>
+              <input type="text" id="pmDocId" placeholder="Ej. 19842110" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold outline-none focus:border-provin-bright" required />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label for="pmPrefix" class="block text-[11px] font-bold text-provin-navy mb-1">Operadora</label>
+              <select id="pmPrefix" class="w-full px-2.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold outline-none">
+                <option value="0414">0414</option>
+                <option value="0424">0424</option>
+                <option value="0412">0412</option>
+                <option value="0416">0416</option>
+                <option value="0426">0426</option>
+              </select>
+            </div>
+            <div class="col-span-2">
+              <label for="pmPhoneNum" class="block text-[11px] font-bold text-provin-navy mb-1">Teléfono (7 dígitos)</label>
+              <input type="tel" id="pmPhoneNum" maxlength="7" placeholder="8821904" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold outline-none focus:border-provin-bright" required />
+            </div>
+          </div>
+
+          <div>
+            <label for="pmAmount" class="block text-[11px] font-bold text-provin-navy mb-1">Monto (Bs.)</label>
+            <input type="number" id="pmAmount" step="0.01" min="0.50" placeholder="0,00" class="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-slate-50 text-base font-extrabold text-provin-navy outline-none focus:border-provin-bright" required />
+          </div>
+
+          <div>
+            <label for="pmConcept" class="block text-[11px] font-bold text-provin-navy mb-1">Concepto</label>
+            <input type="text" id="pmConcept" placeholder="Ej. Pago de servicio" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs outline-none focus:border-provin-bright" />
+          </div>
+
+          <label class="flex items-center gap-2 cursor-pointer pt-1">
+            <input type="checkbox" id="pmSaveNewContact" onchange="document.getElementById('pmNewAliasBox').classList.toggle('hidden', !this.checked)" class="rounded accent-provin-bright" />
+            <span class="text-xs text-provin-muted font-medium">Guardar en contactos frecuentes</span>
+          </label>
+          <div id="pmNewAliasBox" class="hidden">
+            <input type="text" id="pmNewAlias" placeholder="Nombre del contacto (Ej. Sofía Ruiz)" class="w-full px-3.5 py-2 rounded-xl border border-provin-bright/40 bg-provin-ice/40 text-xs font-semibold outline-none" />
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-provin-bright hover:bg-provin-corp text-white font-bold text-sm shadow transition">
+            Enviar Pago Móvil
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 2: TRANSFERENCIAS (CUENTAS PROPIAS Bs<->USD O TERCEROS 20 DÍG.) -->
+    <!-- ===================================================================== -->
+    <div id="transferModal" class="fixed inset-0 bg-provin-navy/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-[430px] w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl slide-up">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-base font-extrabold text-provin-navy">Transferencias Provin</h3>
+          <button type="button" onclick="closeModal('transferModal')" class="w-8 h-8 rounded-full bg-slate-100 text-xs font-bold">✕</button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-1.5 bg-provin-bg p-1 rounded-xl mb-4">
+          <button type="button" id="tabTrOwn" onclick="switchTransferMode('own')" class="py-2 rounded-lg text-xs font-bold bg-white text-provin-navy shadow-sm transition">Cuentas Propias (Bs/$)</button>
+          <button type="button" id="tabTrThird" onclick="switchTransferMode('third')" class="py-2 rounded-lg text-xs font-bold text-provin-muted transition">Terceros (20 dígitos)</button>
+        </div>
+
+        <!-- Cuentas Propias -->
+        <form id="trOwnForm" class="space-y-3">
+          <div>
+            <label for="trOwnPair" class="block text-[11px] font-bold text-provin-navy mb-1">Sentido de la Operación</label>
+            <select id="trOwnPair" onchange="refreshOwnTransferEstimate()" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-provin-navy outline-none">
+              <option value="BS_TO_USD">De Cuenta Principal (Bs.) → Cuenta Divisas ($)</option>
+              <option value="USD_TO_BS">De Cuenta Divisas ($) → Cuenta Principal (Bs.)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="trOwnAmount" id="trOwnAmountLabel" class="block text-[11px] font-bold text-provin-navy mb-1">Monto a debitar (Bs.)</label>
+            <input type="number" id="trOwnAmount" step="0.01" min="0.50" placeholder="0,00" oninput="refreshOwnTransferEstimate()" class="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-slate-50 text-base font-extrabold text-provin-navy outline-none focus:border-provin-bright" required />
+          </div>
+
+          <div class="p-3 rounded-xl bg-provin-ice/80 border border-provin-sky/30 flex items-center justify-between text-xs">
+            <span class="text-provin-corp font-medium">Estimado a recibir:</span>
+            <strong class="text-sm font-extrabold text-provin-navy" id="trOwnEstimate">$ 0,00</strong>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-provin-navy hover:bg-provin-corp text-white font-bold text-sm shadow transition">
+            Confirmar Traspaso
+          </button>
+        </form>
+
+        <!-- Terceros -->
+        <form id="trThirdForm" class="space-y-3 hidden">
+          <div>
+            <label for="trThirdAcc" class="block text-[11px] font-bold text-provin-navy mb-1">Cuenta Destino (20 dígitos)</label>
+            <input type="text" id="trThirdAcc" maxlength="20" placeholder="01080094000000000000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 font-mono text-xs font-bold outline-none focus:border-provin-bright" required />
+          </div>
+
+          <div>
+            <label for="trThirdHolder" class="block text-[11px] font-bold text-provin-navy mb-1">Beneficiario</label>
+            <input type="text" id="trThirdHolder" placeholder="Ej. Valentina Mendoza" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold outline-none focus:border-provin-bright" required />
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label for="trThirdAmt" class="block text-[11px] font-bold text-provin-navy mb-1">Monto (Bs.)</label>
+              <input type="number" id="trThirdAmt" step="0.01" min="1" placeholder="0,00" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-extrabold text-provin-navy outline-none" required />
+            </div>
+            <div>
+              <label for="trThirdNote" class="block text-[11px] font-bold text-provin-navy mb-1">Concepto</label>
+              <input type="text" id="trThirdNote" value="Transferencia Provin" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs outline-none" required />
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-provin-bright hover:bg-provin-corp text-white font-bold text-sm shadow transition">
+            Transferir a Tercero
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 3: RECARGAR (OPERADORAS / SERVICIOS / RECARGA DE SALDO)       -->
+    <!-- ===================================================================== -->
+    <div id="rechargeModal" class="fixed inset-0 bg-provin-navy/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-[430px] w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl slide-up">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h3 class="text-base font-extrabold text-provin-navy">Recargar Servicios y Saldo</h3>
+            <p class="text-[11px] text-provin-muted">Telefonía, servicios o recarga de saldo demo</p>
+          </div>
+          <button type="button" onclick="closeModal('rechargeModal')" class="w-8 h-8 rounded-full bg-slate-100 text-xs font-bold">✕</button>
+        </div>
+
+        <form id="rechargeForm" class="space-y-3">
+          <div>
+            <label for="recServiceType" class="block text-[11px] font-bold text-provin-navy mb-1">Categoría / Operadora</label>
+            <select id="recServiceType" onchange="updateRechargeFieldHint()" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-provin-navy outline-none">
+              <option value="Movistar Prepago">Movistar • Recarga Celular (Debita Bs.)</option>
+              <option value="Digitel 4G">Digitel • Recarga Celular (Debita Bs.)</option>
+              <option value="Movilnet">Movilnet • Recarga Celular (Debita Bs.)</option>
+              <option value="CANTV / Corpoelec">Servicio Público • CANTV / Corpoelec (Debita Bs.)</option>
+              <option value="ABONO_SALDO_BS">Recargar Saldo Demo a Cuenta Bs. (+Abono)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="recTargetRef" id="recTargetLabel" class="block text-[11px] font-bold text-provin-navy mb-1">Número de Teléfono o Contrato</label>
+            <input type="text" id="recTargetRef" placeholder="Ej. 0414-3901122" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold outline-none focus:border-provin-bright" required />
+          </div>
+
+          <div>
+            <label for="recAmount" class="block text-[11px] font-bold text-provin-navy mb-1">Monto (Bs.)</label>
+            <div class="grid grid-cols-4 gap-1.5 mb-2">
+              <button type="button" onclick="document.getElementById('recAmount').value = 100" class="py-1.5 rounded-lg bg-provin-ice text-provin-corp text-xs font-bold">100</button>
+              <button type="button" onclick="document.getElementById('recAmount').value = 250" class="py-1.5 rounded-lg bg-provin-ice text-provin-corp text-xs font-bold">250</button>
+              <button type="button" onclick="document.getElementById('recAmount').value = 500" class="py-1.5 rounded-lg bg-provin-ice text-provin-corp text-xs font-bold">500</button>
+              <button type="button" onclick="document.getElementById('recAmount').value = 1000" class="py-1.5 rounded-lg bg-provin-ice text-provin-corp text-xs font-bold">1.000</button>
+            </div>
+            <input type="number" id="recAmount" step="0.01" min="1" placeholder="0,00" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base font-extrabold text-provin-navy outline-none" required />
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-provin-bright hover:bg-provin-corp text-white font-bold text-sm shadow transition">
+            Procesar Recarga
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 4: MI QR DINÁMICO                                             -->
+    <!-- ===================================================================== -->
+    <div id="qrModal" class="fixed inset-0 bg-provin-navy/75 z-50 hidden items-center justify-center p-4">
+      <div class="bg-white rounded-3xl max-w-[370px] w-full p-5 text-center shadow-2xl slide-up">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-provin-corp">Cobro QR Banco Provin</span>
+          <button type="button" onclick="closeModal('qrModal')" class="w-7 h-7 rounded-full bg-slate-100 text-xs font-bold">✕</button>
+        </div>
+
+        <div class="mb-3 text-left">
+          <label for="qrAmountInput" class="block text-[11px] font-bold text-provin-navy mb-1">Monto a cobrar (Opcional - Bs.)</label>
+          <input type="number" id="qrAmountInput" step="0.01" min="0" placeholder="Ej. 350.00" oninput="renderDynamicQr()" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-provin-navy outline-none focus:border-provin-bright" />
+        </div>
+
+        <div class="p-4 rounded-2xl bg-provin-ice/70 border border-provin-sky/30 inline-block mb-2">
+          <svg id="dynamicQrSvg" class="w-40 h-40 mx-auto" viewBox="0 0 120 120" fill="none" aria-label="Código QR de cobro"></svg>
+        </div>
+
+        <p class="text-xs font-extrabold text-provin-navy" id="qrBadgeAmount">Cobro Abierto (Sin monto fijo)</p>
+        <p class="text-[11px] text-provin-muted mt-0.5" id="qrUserSummary">Danny • 0414-7829011 • V-20.481.930</p>
+
+        <button type="button" onclick="copyPagoMovilCredentials()" class="mt-4 w-full py-3 rounded-xl bg-provin-bright text-white font-bold text-xs shadow">
+          Copiar Datos de Cobro
+        </button>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 5: CAJERO ATM (RETIRO SIN TARJETA + CLAVE 6 DÍGITOS + TIMER)  -->
+    <!-- ===================================================================== -->
+    <div id="atmModal" class="fixed inset-0 bg-provin-navy/75 z-50 hidden items-center justify-center p-4">
+      <div class="bg-provin-navy text-white rounded-3xl max-w-[390px] w-full p-5 shadow-2xl border border-provin-sky/25 slide-up">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-provin-cyan">Cajero Automático Provin</span>
+            <h3 class="text-base font-extrabold">Retiro sin Tarjeta</h3>
+          </div>
+          <button type="button" onclick="closeModal('atmModal')" class="w-8 h-8 rounded-full bg-white/10 text-xs font-bold">✕</button>
+        </div>
+
+        <p class="text-xs text-sky-200 mb-4">Elige el monto a retirar en efectivo. Se generará una clave temporal de 6 dígitos con cuenta regresiva.</p>
+
+        <div class="grid grid-cols-2 gap-2 mb-4">
+          <button type="button" onclick="createAtmWithdrawal(200)" class="py-2.5 rounded-xl bg-white/10 hover:bg-provin-cyan hover:text-provin-navy font-extrabold text-xs border border-white/15 transition">Bs. 200</button>
+          <button type="button" onclick="createAtmWithdrawal(500)" class="py-2.5 rounded-xl bg-white/10 hover:bg-provin-cyan hover:text-provin-navy font-extrabold text-xs border border-white/15 transition">Bs. 500</button>
+          <button type="button" onclick="createAtmWithdrawal(1000)" class="py-2.5 rounded-xl bg-white/10 hover:bg-provin-cyan hover:text-provin-navy font-extrabold text-xs border border-white/15 transition">Bs. 1.000</button>
+          <button type="button" onclick="createAtmWithdrawal(2500)" class="py-2.5 rounded-xl bg-white/10 hover:bg-provin-cyan hover:text-provin-navy font-extrabold text-xs border border-white/15 transition">Bs. 2.500</button>
+        </div>
+
+        <div id="atmResultBox" class="hidden p-4 rounded-2xl bg-black/35 border border-provin-cyan/40 text-center space-y-1.5">
+          <span class="text-[10px] uppercase tracking-widest text-provin-cyan font-bold">Clave Temporal (6 dígitos)</span>
+          <p id="atmKeyDisplay" class="text-3xl font-mono font-extrabold tracking-[0.24em] text-white">000000</p>
+          <p class="text-xs text-sky-200">Monto: <strong id="atmAmountDisplay">Bs. 0,00</strong></p>
+          <p class="text-xs font-bold text-amber-300">Tiempo restante: <span id="atmTimerDisplay">05:00</span></p>
+          <button type="button" onclick="copyToClipboard(document.getElementById('atmKeyDisplay').textContent, 'Clave ATM de 6 dígitos copiada')" class="mt-2 px-3 py-1.5 rounded-lg bg-white/15 hover:bg-white/25 text-[11px] font-bold">
+            Copiar Clave
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 6: CLAVE TOKEN DINÁMICO                                       -->
+    <!-- ===================================================================== -->
+    <div id="tokenModal" class="fixed inset-0 bg-provin-navy/75 z-50 hidden items-center justify-center p-4">
+      <div class="bg-white rounded-3xl max-w-[340px] w-full p-5 text-center shadow-2xl slide-up">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-provin-corp">Clave Token Provin</span>
+          <button type="button" onclick="closeModal('tokenModal')" class="w-7 h-7 rounded-full bg-slate-100 text-xs font-bold">✕</button>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-provin-navy text-white my-3">
+          <span class="text-[10px] uppercase tracking-widest text-provin-cyan font-bold">Código OTP Activo</span>
+          <p id="otpCodeText" class="text-3xl font-mono font-extrabold tracking-[0.22em] my-1.5">739 418</p>
+          <div class="w-full bg-white/15 h-1.5 rounded-full overflow-hidden mt-2">
+            <div id="otpProgressBar" class="bg-provin-cyan h-full transition-all duration-1000" style="width: 100%"></div>
+          </div>
+          <p class="text-[10px] text-sky-200 mt-1.5">Nueva clave en <span id="otpSecondsText">30</span>s</p>
+        </div>
+
+        <button type="button" onclick="copyToClipboard(document.getElementById('otpCodeText').textContent.replace(/\s+/g, ''), 'Clave Token copiada')" class="w-full py-2.5 rounded-xl bg-provin-ice text-provin-corp font-bold text-xs">
+          Copiar Clave Token
+        </button>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 7: COMPROBANTE DIGITAL (FORMATEADO PARA WHATSAPP)               -->
+    <!-- ===================================================================== -->
+    <div id="receiptModal" class="fixed inset-0 bg-provin-navy/75 z-50 hidden items-center justify-center p-4">
+      <div class="bg-white rounded-3xl max-w-[390px] w-full overflow-hidden shadow-2xl slide-up">
+        <div class="bg-provin-header p-5 text-white text-center relative">
+          <button type="button" onclick="closeModal('receiptModal')" class="absolute right-3.5 top-3.5 w-7 h-7 rounded-full bg-white/15 text-xs font-bold">✕</button>
+          <div class="w-11 h-11 rounded-full bg-provin-cyan text-provin-navy flex items-center justify-center mx-auto mb-2 font-extrabold text-xl shadow">✓</div>
+          <h3 class="text-base font-extrabold">Comprobante Digital</h3>
+          <p class="text-[11px] text-provin-sky">Banco Provin • Operación Exitosa</p>
+        </div>
+
+        <div class="p-5 space-y-3">
+          <div class="text-center pb-3 border-b border-dashed border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-provin-muted">Monto</span>
+            <p id="rcAmountText" class="text-2xl font-extrabold text-provin-navy mt-0.5">Bs. 0,00</p>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div class="flex justify-between">
+              <span class="text-provin-muted">Referencia:</span>
+              <span id="rcRefText" class="font-mono font-extrabold text-provin-bright">00000000</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-provin-muted">Fecha y Hora:</span>
+              <span id="rcDateText" class="font-semibold text-provin-navy">--</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-provin-muted">Tipo:</span>
+              <span id="rcTitleText" class="font-bold text-provin-navy text-right max-w-[190px]">--</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-provin-muted">Detalle:</span>
+              <span id="rcDetailText" class="font-semibold text-provin-navy text-right max-w-[190px]">--</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-provin-muted">Concepto:</span>
+              <span id="rcConceptText" class="font-semibold text-provin-navy text-right max-w-[190px]">--</span>
+            </div>
+          </div>
+
+          <div class="pt-3 flex gap-2">
+            <button type="button" onclick="copyReceiptForWhatsApp()" class="flex-1 py-3 rounded-xl bg-provin-bright hover:bg-provin-corp text-white font-bold text-xs shadow transition">
+              Copiar para WhatsApp
+            </button>
+            <button type="button" onclick="closeModal('receiptModal')" class="px-4 py-3 rounded-xl bg-provin-ice text-provin-corp font-bold text-xs transition">
+              Listo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 8: EDITAR TITULAR                                             -->
+    <!-- ===================================================================== -->
+    <div id="userModal" class="fixed inset-0 bg-provin-navy/75 z-50 hidden items-center justify-center p-4">
+      <div class="bg-white rounded-3xl max-w-[370px] w-full p-5 shadow-2xl slide-up">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-base font-extrabold text-provin-navy">Datos del Titular</h3>
+          <button type="button" onclick="closeModal('userModal')" class="w-7 h-7 rounded-full bg-slate-100 text-xs font-bold">✕</button>
+        </div>
+
+        <form id="userForm" class="space-y-3">
+          <div>
+            <label for="userNameInput" class="block text-[11px] font-bold text-provin-navy mb-1">Nombre</label>
+            <input type="text" id="userNameInput" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold outline-none focus:border-provin-bright" />
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label for="userDocTypeInput" class="block text-[11px] font-bold text-provin-navy mb-1">Tipo</label>
+              <select id="userDocTypeInput" class="w-full px-2.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold outline-none">
+                <option value="V">V-</option>
+                <option value="E">E-</option>
+                <option value="J">J-</option>
+              </select>
+            </div>
+            <div class="col-span-2">
+              <label for="userDocNumInput" class="block text-[11px] font-bold text-provin-navy mb-1">Cédula / RIF</label>
+              <input type="text" id="userDocNumInput" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold outline-none" />
+            </div>
+          </div>
+          <div>
+            <label for="userPhoneInput" class="block text-[11px] font-bold text-provin-navy mb-1">Teléfono Pago Móvil</label>
+            <input type="tel" id="userPhoneInput" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold outline-none" />
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-provin-navy text-white font-bold text-xs shadow">
+            Guardar Cambios
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- LÓGICA DE APLICACIÓN BANCO PROVIN (ESTADO, PERSISTENCIA Y EVENTOS)      -->
+  <!-- ======================================================================= -->
+  <script>
+    const STORAGE_KEY = 'banco_provin_app_v1';
+
+    const DEFAULT_STATE = {
+      authenticated: false,
+      privacy: false,
+      rate: 918.77,
+      user: {
+        name: 'Danny',
+        docType: 'V',
+        docNum: '20.481.930',
+        phone: '0414-7829011'
+      },
+      balances: {
+        BS: 2000000.00,
+        USD: 8000.00
+      },
+      card: {
+        active: true,
+        exp: '09/29',
+        cvv: '742'
+      },
+      contacts: [
+        { name: 'María Pérez', bank: '0108 - Banco Provin', docType: 'V', docId: '19842110', prefix: '0414', phone: '8821904' },
+        { name: 'Comercial El Sol', bank: '0134 - Banesco', docType: 'J', docId: '402918221', prefix: '0424', phone: '9102834' },
+        { name: 'Carlos Gómez', bank: '0102 - Banco de Venezuela', docType: 'V', docId: '21409882', prefix: '0412', phone: '7741290' }
+      ],
+      transactions: [
+        {
+          id: 'tx-1004',
+          ref: '00948120',
+          type: 'IN',
+          title: 'PAGO MOVIL RECIBIDO',
+          detail: '0108 - Banco Provin • V-19.842.110',
+          concept: 'Cobro de servicio',
+          currency: 'BS',
+          amount: 2450.00,
+          date: 'Hoy, 11:20 AM'
+        },
+        {
+          id: 'tx-1003',
+          ref: '00947905',
+          type: 'OUT',
+          title: 'PAGO MOVIL ENVIADO',
+          detail: '0134 - Banesco • 0424-9102834',
+          concept: 'Compra de víveres',
+          currency: 'BS',
+          amount: 1180.50,
+          date: 'Ayer, 06:15 PM'
+        },
+        {
+          id: 'tx-1002',
+          ref: '00946311',
+          type: 'OUT',
+          title: 'COMPRA TARJETA DEBITO',
+          detail: 'Centro Comercial Provin • *6092',
+          concept: 'Consumo comercio',
+          currency: 'BS',
+          amount: 640.00,
+          date: '18/11/2026, 04:05 PM'
+        },
+        {
+          id: 'tx-1001',
+          ref: '00945001',
+          type: 'IN',
+          title: 'ABONO EN CUENTA',
+          detail: '0108 - Banco Provin',
+          concept: 'Depósito inicial',
+          currency: 'BS',
+          amount: 17821.25,
+          date: '15/11/2026, 08:30 AM'
+        }
+      ]
+    };
+
+    let appState = loadPersistedState();
+    let homeFilter = 'ALL';
+    let allFilter = 'ALL';
+    let activeReceipt = null;
+    let cvvTimeout = null;
+    let atmTimerInterval = null;
+    let otpTimerInterval = null;
+
+    function cloneDefaultState() {
+      return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    }
+
+    function loadPersistedState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return cloneDefaultState();
+        const parsed = JSON.parse(raw);
+        return {
+          ...cloneDefaultState(),
+          ...parsed,
+          user: { ...DEFAULT_STATE.user, ...(parsed.user || {}) },
+          balances: { ...DEFAULT_STATE.balances, ...(parsed.balances || {}) },
+          card: { ...DEFAULT_STATE.card, ...(parsed.card || {}) }
+        };
+      } catch (err) {
+        return cloneDefaultState();
+      }
+    }
+
+    function persistState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (err) {
+        // Ignorar errores de cuota en entornos restringidos
+      }
+    }
+
+    function fmtBs(num) {
+      if (appState.privacy) return 'Bs. ••••••';
+      return 'Bs. ' + Number(num).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function fmtUsd(num) {
+      if (appState.privacy) return '$ ••••••';
+      return '$ ' + Number(num).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function fmtMoney(num, currency) {
+      return currency === 'USD' ? fmtUsd(num) : fmtBs(num);
+    }
+
+    function generateRefCode() {
+      return String(Math.floor(10000000 + Math.random() * 90000000));
+    }
+
+    function currentTimestamp() {
+      const now = new Date();
+      return now.toLocaleDateString('es-VE', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
+        ', ' + now.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', hour12: true });
+    }
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      const colorClass = type === 'error'
+        ? 'bg-provin-danger text-white'
+        : type === 'info'
+          ? 'bg-provin-navy text-white border border-provin-cyan'
+          : 'bg-provin-success text-white';
+
+      toast.className = `${colorClass} px-4 py-3 rounded-2xl shadow-xl text-xs font-bold flex items-center justify-between gap-2 pointer-events-auto slide-up`;
+      toast.innerHTML = `<span>${message}</span><button type="button" onclick="this.parentElement.remove()" class="opacity-80 hover:opacity-100">✕</button>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        if (toast.parentElement) toast.remove();
+      }, 3400);
+    }
+
+    function copyToClipboard(text, feedbackText = 'Copiado al portapapeles') {
+      const helper = document.createElement('textarea');
+      helper.value = text;
+      helper.setAttribute('readonly', '');
+      helper.style.position = 'absolute';
+      helper.style.left = '-9999px';
+      document.body.appendChild(helper);
+      helper.select();
+      try {
+        document.execCommand('copy');
+        showToast(feedbackText, 'success');
+      } catch (err) {
+        showToast('No fue posible copiar el texto', 'error');
+      }
+      document.body.removeChild(helper);
+    }
+
+    // =========================================================================
+    // LOGIN, PIN Y BIOMETRÍA
+    // =========================================================================
+    function syncUserIdentity() {
+      const initials = appState.user.name
+        .trim()
+        .split(/\s+/)
+        .map(part => part[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase() || 'BP';
+
+      const docFormatted = `${appState.user.docType}-${appState.user.docNum}`;
+
+      document.getElementById('loginAvatar').textContent = initials;
+      document.getElementById('loginNameText').textContent = appState.user.name;
+      document.getElementById('loginSubText').textContent = `${docFormatted} • ${appState.user.phone}`;
+
+      document.getElementById('dashUserName').textContent = appState.user.name;
+      document.getElementById('cardHolderName').textContent = appState.user.name.toUpperCase();
+
+      document.getElementById('profileAvatar').textContent = initials;
+      document.getElementById('profileNameText').textContent = appState.user.name;
+      document.getElementById('profileDocText').textContent = `${docFormatted} • ${appState.user.phone}`;
+      document.getElementById('profPhoneValue').textContent = appState.user.phone;
+      document.getElementById('profDocValue').textContent = docFormatted;
+      document.getElementById('qrUserSummary').textContent = `${appState.user.name} • ${appState.user.phone} • ${docFormatted}`;
+    }
+
+    function togglePinVisibility() {
+      const input = document.getElementById('pinInput');
+      const reveal = input.type === 'password';
+      input.type = reveal ? 'text' : 'password';
+      document.getElementById('pinEyeOpen').classList.toggle('hidden', reveal);
+      document.getElementById('pinEyeClosed').classList.toggle('hidden', !reveal);
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pinVal = document.getElementById('pinInput').value.trim();
+      if (pinVal.length < 4) {
+        showToast('Ingresa un PIN de al menos 4 dígitos', 'error');
+        return;
+      }
+      enterDashboard('Acceso autorizado con PIN');
+    });
+
+    function triggerBiometricUnlock() {
+      showToast('Verificando biometría...', 'info');
+      setTimeout(() => {
+        enterDashboard('Sesión desbloqueada con biometría');
+      }, 450);
+    }
+
+    function enterDashboard(toastMsg = 'Bienvenido a Banco Provin') {
+      appState.authenticated = true;
+      persistState();
+      document.getElementById('loginScreen').classList.add('hidden');
+      const dash = document.getElementById('mainDashboard');
+      dash.classList.remove('hidden');
+      dash.classList.add('flex');
+      renderAllViews();
+      switchNavTab('posicion');
+      showToast(toastMsg, 'success');
+    }
+
+    function logoutSession() {
+      appState.authenticated = false;
+      persistState();
+      document.getElementById('mainDashboard').classList.add('hidden');
+      document.getElementById('mainDashboard').classList.remove('flex');
+      document.getElementById('loginScreen').classList.remove('hidden');
+      syncUserIdentity();
+      showToast('Sesión cerrada', 'info');
+    }
+
+    function quickActionFromLogin(action) {
+      appState.authenticated = true;
+      persistState();
+      document.getElementById('loginScreen').classList.add('hidden');
+      const dash = document.getElementById('mainDashboard');
+      dash.classList.remove('hidden');
+      dash.classList.add('flex');
+      renderAllViews();
+      switchNavTab('posicion');
+      if (action === 'pagomovil') openPagoMovilModal();
+    }
+
+    // =========================================================================
+    // NAVEGACIÓN DE PESTAÑAS INFERIORES
+    // =========================================================================
+    function switchNavTab(tab) {
+      document.querySelectorAll('.nav-view').forEach(v => v.classList.add('hidden'));
+      const target = document.getElementById(`view-${tab}`);
+      if (target) target.classList.remove('hidden');
+
+      document.querySelectorAll('.bottom-tab').forEach(btn => {
+        if (btn.dataset.nav === tab) {
+          btn.classList.remove('text-provin-muted');
+          btn.classList.add('text-provin-bright');
+        } else {
+          btn.classList.remove('text-provin-bright');
+          btn.classList.add('text-provin-muted');
+        }
+      });
+
+      if (tab === 'posicion') renderAllViews();
+      if (tab === 'movimientos') renderAllMovements();
+      if (tab === 'perfil') {
+        document.getElementById('rateSettingInput').value = appState.rate;
+      }
+    }
+
+    // =========================================================================
+    // POSICIÓN GLOBAL: CUENTAS, CALCULADORA, TARJETA Y MOVIMIENTOS
+    // =========================================================================
+    function renderAllViews() {
+      syncUserIdentity();
+
+      document.getElementById('balanceBsDisplay').textContent = fmtBs(appState.balances.BS);
+      document.getElementById('balanceUsdDisplay').textContent = fmtUsd(appState.balances.USD);
+      document.getElementById('pmAvailableText').textContent = fmtBs(appState.balances.BS);
+
+      const formattedRate = Number(appState.rate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById('rateBadgeText').textContent = `${formattedRate} Bs/$`;
+
+      const usdInBs = appState.balances.USD * appState.rate;
+      document.getElementById('usdEquivalentBs').textContent = appState.privacy
+        ? '≈ Bs. ••••••'
+        : '≈ Bs. ' + usdInBs.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      document.getElementById('dashEyeOpen').classList.toggle('hidden', appState.privacy);
+      document.getElementById('dashEyeClosed').classList.toggle('hidden', !appState.privacy);
+
+      // Estado de tarjeta
+      const visual = document.getElementById('provinCardVisual');
+      const badge = document.getElementById('cardStatusBadge');
+      const label = document.getElementById('freezeSwitchLabel');
+      const toggle = document.getElementById('cardFreezeToggle');
+      toggle.checked = appState.card.active;
+
+      if (appState.card.active) {
+        visual.classList.remove('opacity-55', 'grayscale');
+        badge.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-provin-success';
+        badge.textContent = 'Activa';
+        label.textContent = 'Activa';
+      } else {
+        visual.classList.add('opacity-55', 'grayscale');
+        badge.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-red-100 text-provin-danger';
+        badge.textContent = 'Congelada';
+        label.textContent = 'Congelada';
+      }
+
+      updateLiveRateCalc();
+      renderHomeMovements();
+      renderAllMovements();
+      renderContactsBar();
+    }
+
+    function togglePrivacyMode() {
+      appState.privacy = !appState.privacy;
+      persistState();
+      renderAllViews();
+    }
+
+    function toggleAccountDetails() {
+      document.getElementById('account20Drawer').classList.toggle('hidden');
+    }
+
+    function updateLiveRateCalc() {
+      const usdVal = parseFloat(document.getElementById('liveCalcUsdInput').value) || 0;
+      const converted = usdVal * appState.rate;
+      document.getElementById('liveCalcOutput').textContent = '= Bs. ' + converted.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function handleCardFreezeToggle(isActive) {
+      appState.card.active = isActive;
+      persistState();
+      renderAllViews();
+      showToast(isActive ? 'Tarjeta Provin descongelada y operativa' : 'Tarjeta Provin congelada temporalmente', isActive ? 'success' : 'info');
+    }
+
+    function toggleTemporaryCvv() {
+      const expEl = document.getElementById('cardExpText');
+      const cvvEl = document.getElementById('cardCvvText');
+      const lblEl = document.getElementById('cvvToggleLabel');
+
+      if (cvvTimeout) {
+        clearTimeout(cvvTimeout);
+        cvvTimeout = null;
+        expEl.textContent = '••/••';
+        cvvEl.textContent = '•••';
+        lblEl.textContent = 'Ver CVV (15s)';
+        return;
+      }
+
+      expEl.textContent = appState.card.exp;
+      cvvEl.textContent = appState.card.cvv;
+      lblEl.textContent = 'Ocultar CVV';
+      showToast('CVV visible por 15 segundos', 'info');
+
+      cvvTimeout = setTimeout(() => {
+        expEl.textContent = '••/••';
+        cvvEl.textContent = '•••';
+        lblEl.textContent = 'Ver CVV (15s)';
+        cvvTimeout = null;
+      }, 15000);
+    }
+
+    function movementRowHtml(tx) {
+      const positive = tx.type === 'IN';
+      return `
+        <div onclick="openReceiptById('${tx.id}')" class="px-4 py-3 hover:bg-slate-50 transition cursor-pointer flex items-center justify-between gap-3">
+          <div class="min-w-0">
+            <p class="text-xs font-extrabold text-provin-navy truncate">${tx.title}</p>
+            <p class="text-[11px] text-provin-muted truncate">${tx.date} • Ref: ${tx.ref}</p>
+          </div>
+          <div class="text-right shrink-0">
+            <p class="text-xs font-extrabold ${positive ? 'text-provin-success' : 'text-provin-navy'}">${positive ? '+' : '-'}${fmtMoney(tx.amount, tx.currency)}</p>
+            <span class="text-[10px] text-provin-bright font-semibold">Recibo</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function setHomeFilter(filter) {
+      homeFilter = filter;
+      document.querySelectorAll('.hfilter-btn').forEach(btn => {
+        if (btn.dataset.hfilter === filter) {
+          btn.className = 'hfilter-btn flex-1 py-1.5 rounded-lg text-[11px] font-bold bg-provin-navy text-white transition';
+        } else {
+          btn.className = 'hfilter-btn flex-1 py-1.5 rounded-lg text-[11px] font-bold bg-provin-bg text-provin-muted transition';
+        }
+      });
+      renderHomeMovements();
+    }
+
+    function renderHomeMovements() {
+      const list = document.getElementById('homeMovementsList');
+      const query = (document.getElementById('homeSearchInput').value || '').toLowerCase().trim();
+      const rows = appState.transactions.filter(tx => {
+        const okType = homeFilter === 'ALL' || tx.type === homeFilter;
+        const okQuery = !query ||
+          tx.title.toLowerCase().includes(query) ||
+          tx.ref.toLowerCase().includes(query) ||
+          tx.concept.toLowerCase().includes(query);
+        return okType && okQuery;
+      }).slice(0, 4);
+
+      list.innerHTML = rows.length
+        ? rows.map(movementRowHtml).join('')
+        : '<p class="text-xs text-provin-muted p-4 text-center">Sin movimientos que coincidan.</p>';
+    }
+
+    function setAllFilter(filter) {
+      allFilter = filter;
+      document.querySelectorAll('.afilter-btn').forEach(btn => {
+        if (btn.dataset.afilter === filter) {
+          btn.className = 'afilter-btn flex-1 py-1.5 rounded-lg text-[11px] font-bold bg-provin-navy text-white transition';
+        } else {
+          btn.className = 'afilter-btn flex-1 py-1.5 rounded-lg text-[11px] font-bold bg-provin-bg text-provin-muted transition';
+        }
+      });
+      renderAllMovements();
+    }
+
+    function renderAllMovements() {
+      const list = document.getElementById('allMovementsList');
+      if (!list) return;
+      const query = (document.getElementById('allSearchInput').value || '').toLowerCase().trim();
+      const rows = appState.transactions.filter(tx => {
+        const okType = allFilter === 'ALL' || tx.type === allFilter;
+        const okQuery = !query ||
+          tx.title.toLowerCase().includes(query) ||
+          tx.ref.toLowerCase().includes(query) ||
+          tx.detail.toLowerCase().includes(query) ||
+          tx.concept.toLowerCase().includes(query);
+        return okType && okQuery;
+      });
+
+      list.innerHTML = rows.length
+        ? rows.map(movementRowHtml).join('')
+        : '<p class="text-xs text-provin-muted py-6 text-center">No hay movimientos registrados.</p>';
+    }
+
+    // =========================================================================
+    // MODALES GENERALES, PAGO MÓVIL, TRANSFERENCIAS, RECARGAS, QR Y ATM
+    // =========================================================================
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (id === 'qrModal') renderDynamicQr();
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      if (id === 'tokenModal' && otpTimerInterval) clearInterval(otpTimerInterval);
+    }
+
+    // --- Pago Móvil ---
+    function openPagoMovilModal() {
+      document.getElementById('pmAvailableText').textContent = fmtBs(appState.balances.BS);
+      renderContactsBar();
+      openModal('pagoMovilModal');
+    }
+
+    function renderContactsBar() {
+      const bar = document.getElementById('pmContactsBar');
+      if (!bar) return;
+      bar.innerHTML = appState.contacts.map((c, idx) => {
+        const initials = c.name.split(/\s+/).map(p => p[0]).slice(0, 2).join('').toUpperCase();
+        return `
+          <button type="button" onclick="selectContact(${idx})" class="shrink-0 flex flex-col items-center w-16 group">
+            <div class="w-11 h-11 rounded-full bg-provin-ice group-hover:bg-provin-bright group-hover:text-white text-provin-corp font-extrabold text-xs flex items-center justify-center border border-provin-sky/30 transition">
+              ${initials}
+            </div>
+            <span class="text-[10px] font-semibold text-provin-navy truncate w-full text-center mt-1">${c.name.split(' ')[0]}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectContact(index) {
+      const c = appState.contacts[index];
+      if (!c) return;
+      document.getElementById('pmBank').value = c.bank;
+      document.getElementById('pmDocType').value = c.docType;
+      document.getElementById('pmDocId').value = c.docId;
+      document.getElementById('pmPrefix').value = c.prefix;
+      document.getElementById('pmPhoneNum').value = c.phone;
+      showToast(`Contacto ${c.name} seleccionado`, 'info');
+    }
+
+    document.getElementById('pmSubmitForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const bank = document.getElementById('pmBank').value;
+      const docType = document.getElementById('pmDocType').value;
+      const docId = document.getElementById('pmDocId').value.trim();
+      const prefix = document.getElementById('pmPrefix').value;
+      const phoneNum = document.getElementById('pmPhoneNum').value.trim();
+      const amount = parseFloat(document.getElementById('pmAmount').value);
+      const concept = document.getElementById('pmConcept').value.trim() || 'Pago Móvil Provin';
+      const saveNew = document.getElementById('pmSaveNewContact').checked;
+      const alias = document.getElementById('pmNewAlias').value.trim();
+
+      if (isNaN(amount) || amount <= 0) {
+        showToast('Ingresa un monto válido', 'error');
+        return;
+      }
+      if (amount > appState.balances.BS) {
+        showToast('Saldo insuficiente en Cuenta Principal Bs.', 'error');
+        return;
+      }
+
+      if (saveNew && alias) {
+        appState.contacts.unshift({ name: alias, bank, docType, docId, prefix, phone: phoneNum });
+      }
+
+      appState.balances.BS = Number((appState.balances.BS - amount).toFixed(2));
+      const tx = {
+        id: 'tx-' + Date.now(),
+        ref: generateRefCode(),
+        type: 'OUT',
+        title: 'PAGO MOVIL ENVIADO',
+        detail: `${bank} • ${prefix}-${phoneNum} (${docType}-${docId})`,
+        concept,
+        currency: 'BS',
+        amount,
+        date: currentTimestamp()
+      };
+
+      appState.transactions.unshift(tx);
+      persistState();
+      renderAllViews();
+      e.target.reset();
+      document.getElementById('pmNewAliasBox').classList.add('hidden');
+      closeModal('pagoMovilModal');
+      showReceipt(tx);
+    });
+
+    // --- Transferencias ---
+    function openTransferModal(mode = 'own') {
+      switchTransferMode(mode);
+      openModal('transferModal');
+    }
+
+    function switchTransferMode(mode) {
+      const btnOwn = document.getElementById('tabTrOwn');
+      const btnThird = document.getElementById('tabTrThird');
+      const formOwn = document.getElementById('trOwnForm');
+      const formThird = document.getElementById('trThirdForm');
+
+      if (mode === 'own') {
+        btnOwn.className = 'py-2 rounded-lg text-xs font-bold bg-white text-provin-navy shadow-sm transition';
+        btnThird.className = 'py-2 rounded-lg text-xs font-bold text-provin-muted transition';
+        formOwn.classList.remove('hidden');
+        formThird.classList.add('hidden');
+        refreshOwnTransferEstimate();
+      } else {
+        btnThird.className = 'py-2 rounded-lg text-xs font-bold bg-white text-provin-navy shadow-sm transition';
+        btnOwn.className = 'py-2 rounded-lg text-xs font-bold text-provin-muted transition';
+        formThird.classList.remove('hidden');
+        formOwn.classList.add('hidden');
+      }
+    }
+
+    function refreshOwnTransferEstimate() {
+      const pair = document.getElementById('trOwnPair').value;
+      const amt = parseFloat(document.getElementById('trOwnAmount').value) || 0;
+      const label = document.getElementById('trOwnAmountLabel');
+      const est = document.getElementById('trOwnEstimate');
+
+      if (pair === 'BS_TO_USD') {
+        label.textContent = 'Monto a debitar (Bs.)';
+        est.textContent = '$ ' + (amt / appState.rate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      } else {
+        label.textContent = 'Monto a debitar ($ USD)';
+        est.textContent = 'Bs. ' + (amt * appState.rate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    }
+
+    document.getElementById('trOwnForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pair = document.getElementById('trOwnPair').value;
+      const amt = parseFloat(document.getElementById('trOwnAmount').value);
+
+      if (isNaN(amt) || amt <= 0) {
+        showToast('Ingresa un monto válido', 'error');
+        return;
+      }
+
+      if (pair === 'BS_TO_USD') {
+        if (amt > appState.balances.BS) {
+          showToast('Saldo insuficiente en Cuenta Bs.', 'error');
+          return;
+        }
+        const usdCredited = Number((amt / appState.rate).toFixed(2));
+        appState.balances.BS = Number((appState.balances.BS - amt).toFixed(2));
+        appState.balances.USD = Number((appState.balances.USD + usdCredited).toFixed(2));
+
+        const tx = {
+          id: 'tx-' + Date.now(),
+          ref: generateRefCode(),
+          type: 'OUT',
+          title: 'TRASPASO BS A DIVISAS USD',
+          detail: `Abonado: $ ${usdCredited.toLocaleString('es-VE', { minimumFractionDigits: 2 })} USD`,
+          concept: `Tasa ${appState.rate} Bs/$`,
+          currency: 'BS',
+          amount: amt,
+          date: currentTimestamp()
+        };
+        appState.transactions.unshift(tx);
+        persistState();
+        renderAllViews();
+        e.target.reset();
+        refreshOwnTransferEstimate();
+        closeModal('transferModal');
+        showReceipt(tx);
+      } else {
+        if (amt > appState.balances.USD) {
+          showToast('Saldo insuficiente en Cuenta Divisas ($)', 'error');
+          return;
+        }
+        const bsCredited = Number((amt * appState.rate).toFixed(2));
+        appState.balances.USD = Number((appState.balances.USD - amt).toFixed(2));
+        appState.balances.BS = Number((appState.balances.BS + bsCredited).toFixed(2));
+
+        const tx = {
+          id: 'tx-' + Date.now(),
+          ref: generateRefCode(),
+          type: 'IN',
+          title: 'TRASPASO DIVISAS A BS',
+          detail: `Debitado: $ ${amt.toLocaleString('es-VE', { minimumFractionDigits: 2 })} USD`,
+          concept: `Tasa ${appState.rate} Bs/$`,
+          currency: 'BS',
+          amount: bsCredited,
+          date: currentTimestamp()
+        };
+        appState.transactions.unshift(tx);
+        persistState();
+        renderAllViews();
+        e.target.reset();
+        refreshOwnTransferEstimate();
+        closeModal('transferModal');
+        showReceipt(tx);
+      }
+    });
+
+    document.getElementById('trThirdForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const acc = document.getElementById('trThirdAcc').value.trim();
+      const holder = document.getElementById('trThirdHolder').value.trim();
+      const amt = parseFloat(document.getElementById('trThirdAmt').value);
+      const note = document.getElementById('trThirdNote').value.trim();
+
+      if (acc.length !== 20) {
+        showToast('Ingresa una cuenta válida de 20 dígitos', 'error');
+        return;
+      }
+      if (isNaN(amt) || amt <= 0) {
+        showToast('Ingresa un monto válido', 'error');
+        return;
+      }
+      if (amt > appState.balances.BS) {
+        showToast('Saldo insuficiente en Cuenta Principal Bs.', 'error');
+        return;
+      }
+
+      appState.balances.BS = Number((appState.balances.BS - amt).toFixed(2));
+      const tx = {
+        id: 'tx-' + Date.now(),
+        ref: generateRefCode(),
+        type: 'OUT',
+        title: 'TRANSFERENCIA A TERCEROS',
+        detail: `${holder} • *${acc.slice(-4)}`,
+        concept: note,
+        currency: 'BS',
+        amount: amt,
+        date: currentTimestamp()
+      };
+
+      appState.transactions.unshift(tx);
+      persistState();
+      renderAllViews();
+      e.target.reset();
+      closeModal('transferModal');
+      showReceipt(tx);
+    });
+
+    // --- Recargar ---
+    function updateRechargeFieldHint() {
+      const val = document.getElementById('recServiceType').value;
+      document.getElementById('recTargetLabel').textContent = val === 'ABONO_SALDO_BS'
+        ? 'Motivo de recarga de saldo'
+        : 'Número de Teléfono o Contrato';
+    }
+
+    document.getElementById('rechargeForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const service = document.getElementById('recServiceType').value;
+      const target = document.getElementById('recTargetRef').value.trim();
+      const amount = parseFloat(document.getElementById('recAmount').value);
+
+      if (isNaN(amount) || amount <= 0) {
+        showToast('Ingresa un monto válido', 'error');
+        return;
+      }
+
+      if (service === 'ABONO_SALDO_BS') {
+        appState.balances.BS = Number((appState.balances.BS + amount).toFixed(2));
+        const tx = {
+          id: 'tx-' + Date.now(),
+          ref: generateRefCode(),
+          type: 'IN',
+          title: 'RECARGA DE SALDO BS',
+          detail: 'Cuenta Principal Provin',
+          concept: target || 'Recarga inmediata',
+          currency: 'BS',
+          amount,
+          date: currentTimestamp()
+        };
+        appState.transactions.unshift(tx);
+        persistState();
+        renderAllViews();
+        e.target.reset();
+        closeModal('rechargeModal');
+        showReceipt(tx);
+        return;
+      }
+
+      if (amount > appState.balances.BS) {
+        showToast('Saldo insuficiente para realizar la recarga', 'error');
+        return;
+      }
+
+      appState.balances.BS = Number((appState.balances.BS - amount).toFixed(2));
+      const tx = {
+        id: 'tx-' + Date.now(),
+        ref: generateRefCode(),
+        type: 'OUT',
+        title: `RECARGA ${service.toUpperCase()}`,
+        detail: `Destino: ${target}`,
+        concept: 'Recarga / Pago de servicio',
+        currency: 'BS',
+        amount,
+        date: currentTimestamp()
+      };
+
+      appState.transactions.unshift(tx);
+      persistState();
+      renderAllViews();
+      e.target.reset();
+      closeModal('rechargeModal');
+      showReceipt(tx);
+    });
+
+    // --- Mi QR Dinámico ---
+    function renderDynamicQr() {
+      const amt = parseFloat(document.getElementById('qrAmountInput').value) || 0;
+      const badge = document.getElementById('qrBadgeAmount');
+      const svg = document.getElementById('dynamicQrSvg');
+
+      badge.textContent = amt > 0
+        ? 'Monto a cobrar: ' + fmtBs(amt)
+        : 'Cobro Abierto (Sin monto fijo)';
+
+      const seedString = `${appState.user.phone}|${appState.user.docType}-${appState.user.docNum}|${amt}`;
+      let hash = 0;
+      for (let i = 0; i < seedString.length; i++) {
+        hash = ((hash << 5) - hash) + seedString.charCodeAt(i);
+        hash |= 0;
+      }
+
+      let cells = `
+        <rect width="120" height="120" rx="10" fill="white"/>
+        <rect x="10" y="10" width="28" height="28" rx="4" stroke="#072146" stroke-width="5"/>
+        <rect x="18" y="18" width="12" height="12" rx="2" fill="#2DCCCD"/>
+        <rect x="82" y="10" width="28" height="28" rx="4" stroke="#072146" stroke-width="5"/>
+        <rect x="90" y="18" width="12" height="12" rx="2" fill="#2DCCCD"/>
+        <rect x="10" y="82" width="28" height="28" rx="4" stroke="#072146" stroke-width="5"/>
+        <rect x="18" y="90" width="12" height="12" rx="2" fill="#2DCCCD"/>
+      `;
+
+      const coords = [
+        [46, 14], [56, 14], [66, 14], [46, 24], [66, 24],
+        [46, 46], [56, 46], [66, 46], [46, 56], [66, 56], [46, 66], [56, 66], [66, 66],
+        [14, 46], [24, 46], [14, 56], [24, 66],
+        [82, 46], [92, 46], [102, 56], [82, 66], [92, 66],
+        [46, 82], [56, 92], [66, 82], [82, 82], [92, 92], [102, 82], [82, 102], [102, 102]
+      ];
+
+      coords.forEach(([x, y], idx) => {
+        const bit = Math.abs((hash >> (idx % 24)) ^ (idx * 7)) % 2 === 0;
+        if (bit) {
+          const fill = idx % 5 === 0 ? '#2DCCCD' : idx % 2 === 0 ? '#072146' : '#004481';
+          cells += `<rect x="${x}" y="${y}" width="8" height="8" rx="1.5" fill="${fill}"/>`;
+        }
+      });
+
+      svg.innerHTML = cells;
+    }
+
+    // --- Cajero ATM ---
+    function createAtmWithdrawal(amount) {
+      if (amount > appState.balances.BS) {
+        showToast('Saldo insuficiente para este retiro ATM', 'error');
+        return;
+      }
+
+      appState.balances.BS = Number((appState.balances.BS - amount).toFixed(2));
+      const sixDigitKey = String(Math.floor(100000 + Math.random() * 900000));
+      const tx = {
+        id: 'tx-' + Date.now(),
+        ref: generateRefCode(),
+        type: 'OUT',
+        title: 'RETIRO SIN TARJETA ATM',
+        detail: `Clave ATM: ${sixDigitKey}`,
+        concept: 'Efectivo Cajero Provin',
+        currency: 'BS',
+        amount,
+        date: currentTimestamp()
+      };
+
+      appState.transactions.unshift(tx);
+      persistState();
+      renderAllViews();
+
+      document.getElementById('atmResultBox').classList.remove('hidden');
+      document.getElementById('atmKeyDisplay').textContent = sixDigitKey;
+      document.getElementById('atmAmountDisplay').textContent = fmtBs(amount);
+
+      if (atmTimerInterval) clearInterval(atmTimerInterval);
+      let remaining = 300;
+      atmTimerInterval = setInterval(() => {
+        remaining--;
+        if (remaining <= 0) {
+          clearInterval(atmTimerInterval);
+          document.getElementById('atmTimerDisplay').textContent = '00:00';
+          return;
+        }
+        const mm = String(Math.floor(remaining / 60)).padStart(2, '0');
+        const ss = String(remaining % 60).padStart(2, '0');
+        document.getElementById('atmTimerDisplay').textContent = `${mm}:${ss}`;
+      }, 1000);
+
+      showToast(`Clave ATM ${sixDigitKey} generada`, 'success');
+    }
+
+    // --- Clave Token ---
+    function openTokenModal() {
+      openModal('tokenModal');
+      generateOtpValue();
+      if (otpTimerInterval) clearInterval(otpTimerInterval);
+      let secs = 30;
+      document.getElementById('otpSecondsText').textContent = secs;
+      document.getElementById('otpProgressBar').style.width = '100%';
+
+      otpTimerInterval = setInterval(() => {
+        secs--;
+        if (secs <= 0) {
+          secs = 30;
+          generateOtpValue();
+        }
+        document.getElementById('otpSecondsText').textContent = secs;
+        document.getElementById('otpProgressBar').style.width = `${(secs / 30) * 100}%`;
+      }, 1000);
+    }
+
+    function generateOtpValue() {
+      const a = Math.floor(100 + Math.random() * 900);
+      const b = Math.floor(100 + Math.random() * 900);
+      document.getElementById('otpCodeText').textContent = `${a} ${b}`;
+    }
+
+    // --- Comprobante Digital ---
+    function openReceiptById(id) {
+      const found = appState.transactions.find(item => item.id === id);
+      if (found) showReceipt(found);
+    }
+
+    function showReceipt(tx) {
+      activeReceipt = tx;
+      document.getElementById('rcAmountText').textContent = fmtMoney(tx.amount, tx.currency);
+      document.getElementById('rcRefText').textContent = tx.ref;
+      document.getElementById('rcDateText').textContent = tx.date;
+      document.getElementById('rcTitleText').textContent = tx.title;
+      document.getElementById('rcDetailText').textContent = tx.detail;
+      document.getElementById('rcConceptText').textContent = tx.concept;
+      openModal('receiptModal');
+    }
+
+    function copyReceiptForWhatsApp() {
+      if (!activeReceipt) return;
+      const r = activeReceipt;
+      const text = [
+        '*BANCO PROVIN - COMPROBANTE DIGITAL*',
+        `• *Operación:* ${r.title}`,
+        `• *Monto:* ${fmtMoney(r.amount, r.currency)}`,
+        `• *Referencia:* ${r.ref}`,
+        `• *Fecha:* ${r.date}`,
+        `• *Detalle:* ${r.detail}`,
+        `• *Concepto:* ${r.concept}`
+      ].join('\n');
+      copyToClipboard(text, 'Comprobante copiado para WhatsApp');
+    }
+
+    // --- Perfil, Tasa y Restablecer ---
+    function openUserModal() {
+      document.getElementById('userNameInput').value = appState.user.name;
+      document.getElementById('userDocTypeInput').value = appState.user.docType;
+      document.getElementById('userDocNumInput').value = appState.user.docNum;
+      document.getElementById('userPhoneInput').value = appState.user.phone;
+      openModal('userModal');
+    }
+
+    document.getElementById('userForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      appState.user.name = document.getElementById('userNameInput').value.trim();
+      appState.user.docType = document.getElementById('userDocTypeInput').value;
+      appState.user.docNum = document.getElementById('userDocNumInput').value.trim();
+      appState.user.phone = document.getElementById('userPhoneInput').value.trim();
+      persistState();
+      syncUserIdentity();
+      renderAllViews();
+      closeModal('userModal');
+      showToast('Datos del titular actualizados', 'success');
+    });
+
+    function copyPagoMovilCredentials() {
+      const docStr = `${appState.user.docType}-${appState.user.docNum}`;
+      const info = `Datos Pago Móvil Banco Provin:\n• Banco: 0108 - Banco Provin\n• Teléfono: ${appState.user.phone}\n• Cédula/RIF: ${docStr}`;
+      copyToClipboard(info, 'Datos de Pago Móvil copiados');
+    }
+
+    function updateExchangeRate() {
+      const nextRate = parseFloat(document.getElementById('rateSettingInput').value);
+      if (isNaN(nextRate) || nextRate <= 0) {
+        showToast('Ingresa una tasa de cambio válida', 'error');
+        return;
+      }
+      appState.rate = nextRate;
+      persistState();
+      renderAllViews();
+      showToast(`Tasa actualizada a ${nextRate.toFixed(2)} Bs/$`, 'success');
+    }
+
+    function topUpDemoBalance(currency, amount) {
+      appState.balances[currency] = Number((appState.balances[currency] + amount).toFixed(2));
+      const tx = {
+        id: 'tx-' + Date.now(),
+        ref: generateRefCode(),
+        type: 'IN',
+        title: currency === 'BS' ? 'ABONO DEMO CUENTA BS' : 'ABONO DEMO DIVISAS USD',
+        detail: 'Banca Digital Provin',
+        concept: 'Recarga de saldo de prueba',
+        currency,
+        amount,
+        date: currentTimestamp()
+      };
+      appState.transactions.unshift(tx);
+      persistState();
+      renderAllViews();
+      showToast(`Abonado ${fmtMoney(amount, currency)}`, 'success');
+    }
+
+    function resetDemoState() {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (err) {}
+      appState = cloneDefaultState();
+      appState.authenticated = true;
+      persistState();
+      renderAllViews();
+      showToast('Datos restablecidos a valores iniciales', 'info');
+    }
+
+    // Arranque inicial
+    window.addEventListener('DOMContentLoaded', () => {
+      syncUserIdentity();
+      if (appState.authenticated) {
+        enterDashboard();
+      }
+    });
+  </script>
+</body>
+</html>
